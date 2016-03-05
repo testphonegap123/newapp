@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>SchoolApp | Log in</title>
+        <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+        <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+        <script type="text/javascript" src="cordova.js"></script>
+        <style type="text/css">
+            #loginForm .has-error .control-label,
+            #loginForm .has-error .help-block,
+            #loginForm .has-error .form-control-feedback {
+                color: #f39c12;
+            }
+
+            #loginForm .has-success .control-label,
+            #loginForm .has-success .help-block,
+            #loginForm .has-success .form-control-feedback {
+                color: #18bc9c;
+            }
+        </style>
+        <link rel="stylesheet" href="dist/css/font-awesome.min.css">
+        <link rel="stylesheet" href="dist/css/ionicons.min.css">
+        <link rel="stylesheet" href="dist/css/AdminLTE.min.css">
+        <link rel="stylesheet" href="plugins/iCheck/square/blue.css">
+    </head>
+    <body class="hold-transition login-page">
+        <div class="wrapper" >
+            <div class="login-box">
+                <div class="login-logo">
+                    <a href="#"><b>School</b>APP</a>
+                </div><!-- /.login-logo -->
+                <div class="login-box-body" id="loginpage">
+                    <p class="login-box-msg">Sign in to start your session</p>
+                    <form action="" method="post" id="login_form" class="form-horizontal">
+                        <div class="form-group has-feedback">
+                            <input type="text" class="form-control" placeholder="Username" name="username" id="username" >
+                            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+                            <span style="color:#f00;" id="username_error"></span>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <input type="password" class="form-control" placeholder="Password" id="password" name="password" >
+                            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+                            <span style="color:#f00;" id="password_error"></span>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-8">
+
+                            </div><!-- /.col -->
+                            <div class="col-xs-4">
+                                <button type="button" id="btn-login" class="btn btn-primary btn-block btn-flat">Sign In</button>
+                            </div><!-- /.col -->
+                            <span style="color:#f00;" id="form_error"></span>
+                        </div>
+                    </form>
+                </div><!-- /.login-box-body -->
+            </div><!-- /.login-box -->
+        </div>
+        <!-- jQuery 2.1.4 -->
+        <script src="plugins/jQuery/jQuery-2.1.4.min.js"></script>
+        <!-- Bootstrap 3.3.5 -->
+        <script src="bootstrap/js/bootstrap.min.js"></script>
+        <!-- iCheck -->
+        <script src="plugins/iCheck/icheck.min.js"></script>
+        <!--<script src="dist/mobile_asset/jquery.mobile-1.4.5.js"></script>-->
+
+
+        <script>
+            //        document.addEventListener('deviceready', onDeviceReady, false);
+            ////      $(function () {
+            //onDeviceReady: function() {
+            //          $("#btn-login").click(function(){
+            //                if($("#username").val()==""){$("#username_error").html("Please Enter Username");$("#username").focus();return false;}else{$("#username_error").html("");}
+            //                if($("#password").val()==""){$("#password_error").html("Please Enter Password");$("#password").focus();return false;}else{$("#password_error").html("");}
+            //                
+            //                $.ajax({
+            //                type: "POST",
+            //                url: "http://thethirdthought.in/schoolapp/index.php/user/login",
+            //                data: $('#login_form').serialize(),
+            //                datatype: "json",
+            //                success: function(result){
+            //                    var obj = $.parseJSON(result);
+            //                    $("#form_error").html("");
+            //                    if(obj.success)
+            //                    {
+            //                        localStorage.setItem("secret", obj.secret);
+            //                        window.location = 'dashboard.html'; 
+            //                       // $.mobile.changePage('dashboard.html','#loginpage');
+            //                    }
+            //                    else
+            //                    {
+            //                        $("#form_error").html("");
+            //                        $("#form_error").html(obj.msg);
+            //                    }
+            //                },
+            //                error: function(){
+            //                    console.log("Some Error Occured");
+            //                }
+            //                });
+            //                
+            //          });
+            //         
+            //         }
+            //      });
+            app.initialize();
+
+            var app = {
+                // Application Constructor
+                initialize: function() {
+                    this.bindEvents();
+                },
+                // Bind Event Listeners
+                //
+                // Bind any events that are required on startup. Common events are:
+                // 'load', 'deviceready', 'offline', and 'online'.
+                bindEvents: function() {
+                    document.addEventListener('deviceready', this.onDeviceReady, false);
+                },
+                // deviceready Event Handler
+                //
+                // The scope of 'this' is the event. In order to call the 'receivedEvent'
+                // function, we must explicitly call 'app.receivedEvent(...);'
+                onDeviceReady: function() {
+                    app.receivedEvent('deviceready');
+                },
+                // Update DOM on a Received Event
+                receivedEvent: function(id) {
+                    $("#btn-login").click(function() {
+                        if ($("#username").val() == "") {
+                            $("#username_error").html("Please Enter Username");
+                            $("#username").focus();
+                            return false;
+                        } else {
+                            $("#username_error").html("");
+                        }
+                        if ($("#password").val() == "") {
+                            $("#password_error").html("Please Enter Password");
+                            $("#password").focus();
+                            return false;
+                        } else {
+                            $("#password_error").html("");
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: "http://thethirdthought.in/schoolapp/index.php/user/login",
+                            data: $('#login_form').serialize(),
+                            datatype: "json",
+                            success: function(result) {
+                                $("#password_error").html(result);
+                                var obj = $.parseJSON(result);
+                                $("#form_error").html("");
+                                if (obj.success)
+                                {
+                                    localStorage.setItem("secret", obj.secret);
+                                    window.location = 'dashboard.html';
+                                    // $.mobile.changePage('dashboard.html','#loginpage');
+                                }
+                                else
+                                {
+                                    $("#form_error").html("");
+                                    $("#form_error").html(obj.msg);
+                                }
+                            },
+                            error: function(result) {
+
+                                $("#password_error").html(result);
+                                console.log("Some Error Occured");
+                            }
+                        });
+
+                    });
+                }
+            };
+        </script>
+    </body>
+</html>
